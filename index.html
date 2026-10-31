@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi tienda</title>
+  <style>
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      color: #222;
+      margin-bottom: 8px;
+    }
+
+    .slogan {
+      color: #666;
+      font-size: 17px;
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+
+    /* Beneficios de la tienda */
+
+    .beneficios {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+
+      background-color: #222;
+      color: white;
+
+      padding: 14px;
+      margin-bottom: 30px;
+    }
+
+    .beneficios span {
+      font-size: 14px;
+    }
+
+    /* Catálogo */
+
+    #productos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .producto {
+      border: 1px solid #ccc;
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      width: 220px;
+      vertical-align: top;
+    }
+
+    .producto img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .producto h3 {
+      margin-bottom: 8px;
+    }
+
+    .descripcion {
+      font-size: 14px;
+      color: #666;
+      min-height: 42px;
+    }
+
+    .precio {
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    /* Botones */
+
+    .producto button {
+      background-color: #28a745;
+      border: none;
+      color: white;
+      padding: 9px 12px;
+      margin-top: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .producto button:hover {
+      opacity: 0.85;
+    }
+
+    /* Carrito */
+
+    .carrito {
+      margin-top: 35px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      text-align: left;
+      display: inline-block;
+      min-width: 320px;
+    }
+
+    .carrito h2 {
+      margin-top: 0;
+    }
+
+    #lista-carrito {
+      padding-left: 20px;
+    }
+
+    #lista-carrito li {
+      margin-bottom: 8px;
+    }
+
+    .resumen {
+      border-top: 1px solid #ddd;
+      margin-top: 15px;
+      padding-top: 10px;
+    }
+
+    .total {
+      font-size: 19px;
+    }
+
+    /* Botón vaciar */
+
+    .vaciar {
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      padding: 9px 12px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Botón finalizar */
+
+    .finalizar {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      padding: 9px 12px;
+      margin-top: 10px;
+      margin-left: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .vaciar:hover,
+    .finalizar:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <h1>RUANA NOBSA</h1>
+
+  <p class="slogan">
+    El abrazo de nuestra tierra
+  </p>
+
+  <div class="beneficios">
+    <span>🚚 Envíos en Bogotá</span>
+    <span>🔒 Compra segura</span>
+    <span>📦 Seguimiento de pedido</span>
+  </div>
+
+  <div id="productos"></div>
+
+  <div class="carrito">
+    <h2>🧾 Carrito de Compras</h2>
+
+    <ul id="lista-carrito"></ul>
+
+    <div class="resumen">
+      <p>
+        Envío: <strong>Gratis</strong>
+      </p>
+
+      <p class="total">
+        Total: $<span id="total">0</span>
+      </p>
+    </div>
+
+    <button class="vaciar" onclick="vaciarCarrito()">
+      🧼 Vaciar Carrito
+    </button>
+
+    <button class="finalizar" onclick="finalizarCompra()">
+      ✅ Finalizar Compra
+    </button>
+  </div>
+
+  <script>
+    const productos = [
+      {
+        id: 1,
+        nombre: "Ruana Alpaca",
+        descripcion: " El detalle perfecto para recordar nuestro hogar.",
+        precio: 250000,
+        imagen: "https://elpotro.com.co/wp-content/uploads/2025/06/WhatsApp-Image-2025-06-12-at-12.12.01-PM.jpeg"
+      },
+      {
+        id: 2,
+        nombre: "Tejido Nobsa",
+        descripcion: "Ni saco, ni chaqueta... ¡Ruana! 🏔️ La verdadera forma de ganarle al frío con estilo 100% colombiano",
+        precio: 180000,
+        imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMEK78HYSf_m90JDcdVyFh78pznagNHrgDy8nREERayosgqE2fyDbFTzAa&s=10"
+      },
+      {
+        id: 3,
+        nombre: "Toke Inka",
+        descripcion: "Tradición que combina con todo. ✨ Dale un toque único y elegante a tu outfit diario con nuestras ruanas modernas",
+        precio: 300000,
+        imagen: "https://tokeinka.pe/cdn/shop/files/IMG_20250526_143144_5.png?v=1763503518&width=1946"
+      },
+      {
+        id: 4,
+        nombre: "Tradicional Blanco",
+        descripcion: "El abrazo de nuestra tierra hecho prenda. Lleva la calidez y la tradición de una buena ruana artesanal contigo.",
+        precio: 180000,
+        imagen: "https://www.madeinnobsa.com/wp-content/uploads/2020/09/150ovejaBlanca1.webp"
+      },
+      {
+        id: 5,
+        nombre: "Dos Lineas",
+        descripcion: "El frío de Bogotá se pasa mejor con una ruana.",
+        precio: 220000,
+        imagen: "https://www.elespectador.com/wp-content/uploads/elespectador/BFFGU4PQSVGQXAE357SVYMML2U.jpg"
+      }
+    ];
+
+
+    /* ==============================
+       CARRITO
+    ================================ */
+
+    const carrito = [];
+
+    const contenedorProductos = document.getElementById("productos");
+    const listaCarrito = document.getElementById("lista-carrito");
+    const totalCarrito = document.getElementById("total");
+
+
+    /* ==============================
+       MOSTRAR PRODUCTOS
+    ================================ */
+
+    function mostrarProductos() {
+
+      contenedorProductos.innerHTML = "";
+
+      productos.forEach(prod => {
+
+        const div = document.createElement("div");
+
+        div.className = "producto";
+
+        div.innerHTML = `
+          <img src="${prod.imagen}" alt="${prod.nombre}">
+
+          <h3>${prod.nombre}</h3>
+
+          <p class="descripcion">
+            ${prod.descripcion}
+          </p>
+
+          <p class="precio">
+            ${prod.precio.toLocaleString("es-CO", {
+              style: "currency",
+              currency: "COP",
+              minimumFractionDigits: 0
+            })}
+          </p>
+
+          <button onclick="agregarAlCarrito(${prod.id})">
+            Agregar al carrito
+          </button>
+        `;
+
+        contenedorProductos.appendChild(div);
+
+      });
+
+    }
+
+
+    /* ==============================
+       AGREGAR AL CARRITO
+    ================================ */
+
+    function agregarAlCarrito(id) {
+
+      const productoExistente =
+        carrito.find(p => p.id === id);
+
+      if (productoExistente) {
+
+        productoExistente.cantidad++;
+
+      } else {
+
+        const producto =
+          productos.find(p => p.id === id);
+
+        carrito.push({
+          ...producto,
+          cantidad: 1
+        });
+
+      }
+
+      actualizarCarrito();
+
+    }
+
+
+    /* ==============================
+       ACTUALIZAR CARRITO
+    ================================ */
+
+    function actualizarCarrito() {
+
+      listaCarrito.innerHTML = "";
+
+      let total = 0;
+      let totalItems = 0;
+
+      carrito.forEach(item => {
+
+        const li =
+          document.createElement("li");
+
+        const subtotal =
+          item.precio * item.cantidad;
+
+        li.textContent =
+          `${item.nombre} x${item.cantidad} — ` +
+          subtotal.toLocaleString("es-CO", {
+            style: "currency",
+            currency: "COP",
+            minimumFractionDigits: 0
+          });
+
+        listaCarrito.appendChild(li);
+
+        total += subtotal;
+        totalItems += item.cantidad;
+
+      });
+
+      totalCarrito.textContent =
+        total.toLocaleString("es-CO");
+
+      actualizarTituloCarrito(totalItems);
+
+    }
+
+
+    /* ==============================
+       CONTADOR DEL CARRITO
+    ================================ */
+
+    function actualizarTituloCarrito(cantidad) {
+
+      const titulo =
+        document.querySelector(".carrito h2");
+
+      titulo.textContent =
+        `🧾 Carrito de Compras (${cantidad})`;
+
+    }
+
+
+    /* ==============================
+       VACIAR CARRITO
+    ================================ */
+
+    function vaciarCarrito() {
+
+      if (carrito.length === 0) {
+
+        alert("🛒 El carrito ya está vacío.");
+
+        return;
+
+      }
+
+      if (
+        confirm(
+          "¿Estás seguro de que quieres vaciar el carrito?"
+        )
+      ) {
+
+        carrito.length = 0;
+
+        actualizarCarrito();
+
+      }
+
+    }
+
+
+    /* ==============================
+       FINALIZAR COMPRA
+    ================================ */
+
+    function finalizarCompra() {
+
+      if (carrito.length === 0) {
+
+        alert(
+          "🛒 Tu carrito está vacío. Agrega productos antes de finalizar la compra."
+        );
+
+        return;
+
+      }
+
+      alert(
+        "🎉 ¡Pedido simulado confirmado!\n\n" +
+        "En un eCommerce real, ahora entrarían en acción " +
+        "el backend, la pasarela de pago y la logística."
+      );
+
+      carrito.length = 0;
+
+      actualizarCarrito();
+
+    }
+
+
+    /* ==============================
+       INICIAR TIENDA
+    ================================ */
+
+    mostrarProductos();
+  </script>
+</body>
+</html>
